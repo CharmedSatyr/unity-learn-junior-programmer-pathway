@@ -2,49 +2,46 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject ball;
-
-    private readonly Vector3 initialPosition = new(0, 0, 0);
+    private readonly Vector3 initialPosition = Vector3.zero;
     private readonly Quaternion initialRotation = new(0, 0, 0, 0);
+    private RigidbodyConstraints initialConstraints;
     private Vector3 rotationSpeed;
+    [SerializeField] float rotationSpeedMultiplier = 5.0f;
 
+    private GameManager gameManager;
     private Rigidbody rb;
 
-    // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         rb = GetComponent<Rigidbody>();
+        initialConstraints = rb.constraints;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        GameObject ball = GameObject.FindGameObjectWithTag("Ball");
-
-        if (ball == null)
-        {
-            Reset();
-            return;
-        }
-
-        if (ball.GetComponent<BallController>().gameOver)
+        if (!gameManager.isGameActive)
         {
             rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
+        }
+        else
+        {
+            rb.constraints = initialConstraints;
+            transform.position = initialPosition;
         }
 
         float xMovement = -Input.GetAxis("Horizontal");
         float zMovement = Input.GetAxis("Vertical");
 
-        rotationSpeed = new(zMovement, rotationSpeed.y, xMovement);
+        rotationSpeed = new Vector3(zMovement, rotationSpeed.y, xMovement) * rotationSpeedMultiplier;
 
         transform.Rotate(rotationSpeed);
     }
 
-    public void Reset()
+    public void ResetPlayerBoard()
     {
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rotationSpeed = Vector3.zero;

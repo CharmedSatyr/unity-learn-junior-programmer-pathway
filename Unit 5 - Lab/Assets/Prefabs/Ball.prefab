@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41c72e441c2e7e4fae4161d980f0e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOver: 0
+  particleEffect: {fileID: 19860484, guid: 6586ff0f14125534cae2f5d8f04b7871, type: 3}
 --- !u!114 &6079145734307090953
 MonoBehaviour:
   m_ObjectHideFlags: 0

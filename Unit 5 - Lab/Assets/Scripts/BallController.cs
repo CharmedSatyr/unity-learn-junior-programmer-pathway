@@ -2,20 +2,30 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public bool gameOver;
-
+    public ParticleSystem particleEffect;
+    private GameManager gameManager;
     private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (gameOver)
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+    }
+
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!gameManager.isGameActive)
         {
             rb.constraints = RigidbodyConstraints.FreezeAll;
         }
@@ -25,8 +35,9 @@ public class BallController : MonoBehaviour
     {
         if (other.CompareTag("Goal"))
         {
-            gameOver = true;
-            Debug.Log("You Win!");
+            gameManager.GameOver(true);
+            Debug.Log("Game over: Reached goal.");
+
         }
     }
 
@@ -34,6 +45,7 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Debris"))
         {
+            Instantiate(particleEffect, collision.transform.position, collision.transform.rotation);
             Destroy(collision.gameObject);
         }
     }

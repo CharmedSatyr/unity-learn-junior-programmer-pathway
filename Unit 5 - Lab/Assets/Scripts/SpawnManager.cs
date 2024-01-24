@@ -1,39 +1,29 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
     public GameObject ballPrefab;
-    public GameObject debrisPrefab;
+    public List<GameObject> debrisPrefabs;
 
     public Vector3 ballSpawnPosition;
     public float ballMinimumYPosition = -10f;
 
-    private bool readyingBall = false;
+    private GameManager gameManager;
 
-    private float spawnRange = 7f;
+    private const float spawnRange = 7f;
+    private const float startDelay = 3;
+    private const float repeatRate = 3;
 
-    private float startDelay = 1;
-    private float repeatRate = 3;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        SpawnBall();
-
-        InvokeRepeating(nameof(SpawnDebris), startDelay, repeatRate);
-
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartSpawning()
     {
-        if (GameObject.FindGameObjectsWithTag("Ball").Length == 0 && !readyingBall)
-        {
-            readyingBall = true;
-            DestroyDebris();
-            StartCoroutine(SpawnBallAfterDelay());
-        }
+        SpawnBall();
+        InvokeRepeating(nameof(SpawnDebris), startDelay, repeatRate);
     }
 
     void SpawnBall()
@@ -41,25 +31,27 @@ public class SpawnManager : MonoBehaviour
         Instantiate(ballPrefab, ballSpawnPosition, ballPrefab.transform.rotation);
     }
 
-    IEnumerator SpawnBallAfterDelay()
-    {
-        yield return new WaitForSeconds(1);
-
-        SpawnBall();
-
-        readyingBall = false;
-    }
-
     void SpawnDebris()
     {
+        if (!gameManager.isGameActive)
+        {
+            return;
+        }
+
         float spawnPosX = Random.Range(-spawnRange, spawnRange);
         float spawnPosY = Random.Range(1, spawnRange);
         float spawnPosZ = Random.Range(-spawnRange, spawnRange);
 
-        Instantiate(debrisPrefab, new Vector3(spawnPosX, spawnPosY, spawnPosZ), debrisPrefab.transform.rotation);
+        int index = Random.Range(0, debrisPrefabs.Count - 1);
+
+        Instantiate(
+            debrisPrefabs[index],
+            new Vector3(spawnPosX, spawnPosY, spawnPosZ),
+            debrisPrefabs[index].transform.rotation
+        );
     }
 
-    void DestroyDebris()
+    public void DestroyDebris()
     {
         GameObject[] debris = GameObject.FindGameObjectsWithTag("Debris");
 
@@ -73,5 +65,11 @@ public class SpawnManager : MonoBehaviour
         {
             Destroy(item);
         }
+    }
+
+    public void DestroyBall()
+    {
+        GameObject ball = GameObject.FindGameObjectWithTag("Ball");
+        Destroy(ball);
     }
 }

@@ -362,6 +362,7 @@
 "Assets/Scripts/DestroyOutOfBounds.cs"
 "Assets/Scripts/DetectCollisions.cs"
 "Assets/Scripts/MoveForward.cs"
+"Assets/Scripts/ObjectPooler.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/SpawnManager.cs"
 -langversion:9.0

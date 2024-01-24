@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private readonly float speed = 20.0f;
-    private readonly float turnSpeed = 45.0f;
+    [SerializeField] float speed = 20.0f;
+    [SerializeField] float turnSpeed = 45.0f;
     private float horizontalInput;
     private float forwardInput;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         forwardInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");

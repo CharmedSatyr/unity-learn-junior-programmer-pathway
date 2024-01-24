@@ -842,13 +842,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6822179027916724783}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de91a044624be624fb3a7d5673fbe2c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 38e917c52987daa41af6a0305d9813c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalInput: 0
-  speed: 10
-  leftBoundary: -10
-  rightBoundary: 10
   projectilePrefab: {fileID: 6867893498006665313, guid: 18868d82bb9642141b1d2c18cae3a24c, type: 3}
 --- !u!1 &7697316725870179038
 GameObject:
