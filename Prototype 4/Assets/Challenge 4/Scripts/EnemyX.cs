@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class EnemyX : MonoBehaviour
+﻿public class EnemyX : MonoBehaviour
 {
     public float speed;
 

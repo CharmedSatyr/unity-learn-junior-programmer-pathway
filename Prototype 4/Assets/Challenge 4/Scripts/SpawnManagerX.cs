@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class SpawnManagerX : MonoBehaviour
+﻿public class SpawnManagerX : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
